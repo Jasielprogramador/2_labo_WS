@@ -1,6 +1,7 @@
 import urllib
 
 import requests
+import sys
 
 
 def lehenegoEskaera():
@@ -13,8 +14,8 @@ def lehenegoEskaera():
     cookie = erantzuna.headers['Set-Cookie'].split(";")[0]
     host = erantzuna.url.split("/")[2]
 
-    print("metodoa:"+metodo)
-    print("uria"+uria)
+    print("metodoa: "+metodo)
+    print("uria: "+uria)
     print("cookie: " + cookie)
     print("host: " + host)
 
@@ -27,50 +28,55 @@ def lehenegoEskaera():
     return cookie,host
 
 
-def bigarrenEskaera(cookie,host):
+def bigarrenEskaera(cookie,host,erabiltzailea,pasahitza):
     metodo = 'POST'
-    uria = "https://"+host
+    uria = "https://"+host+"/login/index.php"
     cookieIzenburua = cookie.split("=")[0]
     cookieKodea = cookie.split("=")[1]
     goiburuak = {'Host':"'"+host+"'","'"+cookieIzenburua+"'":"'"+cookieKodea+"'",
-                 'Content-Type':' application/x-www-form-urlencoded',
+                 'Content-Type':'application/x-www-form-urlencoded',
                  'Content-Length':'0'}
-    edukia = '/login/index.php'
+    edukia = {'username':erabiltzailea,'password':pasahitza}
     edukia_encoded = urllib.parse.urlencode(edukia)
     goiburuak['Content-Length'] = str(len(edukia_encoded))
     erantzuna = requests.request(metodo, uria, headers=goiburuak, data=edukia_encoded, allow_redirects=False)
 
-    print("metodoa:" + metodo)
-    print("uria" + uria)
-    print("edukia" + edukia)
+    print("metodoa: " + metodo)
+    print("uria: " + uria)
+    print("edukia: " + edukia_encoded)
 
     codigo = erantzuna.status_code
     descripcion = erantzuna.reason
     print(str(codigo) + " " + descripcion)
 
-def hirugarrenEskaera():
-    metodo = 'GET'
-    uria = "https://" + host
-    cookieIzenburua = cookie.split("=")[0]
-    cookieKodea = cookie.split("=")[1]
-    goiburuak = {'Host': "'" + host + "'", "'" + cookieIzenburua + "'": "'" + cookieKodea + "'"}
-    edukia = '/login/index.php'
-    print("Sartu e")
-    erantzuna = requests.request(metodo, uria, headers=goiburuak, data=edukia, allow_redirects=False)
+    print(erantzuna.content)
 
-    print("metodoa:" + metodo)
-    print("uria" + uria)
-    print("edukia" + edukia)
-
-    codigo = erantzuna.status_code
-    descripcion = erantzuna.reason
-    print(str(codigo) + " " + descripcion)
+# def hirugarrenEskaera():
+#     metodo = 'GET'
+#     uria = "https://" + host
+#     cookieIzenburua = cookie.split("=")[0]
+#     cookieKodea = cookie.split("=")[1]
+#     goiburuak = {'Host': "'" + host + "'", "'" + cookieIzenburua + "'": "'" + cookieKodea + "'"}
+#     edukia = '/login/index.php'
+#     print("Sartu e")
+#     erantzuna = requests.request(metodo, uria, headers=goiburuak, data=edukia, allow_redirects=False)
+#
+#     print("metodoa:" + metodo)
+#     print("uria" + uria)
+#     print("edukia" + edukia)
+#
+#     codigo = erantzuna.status_code
+#     descripcion = erantzuna.reason
+#     print(str(codigo) + " " + descripcion)
 
 
 
 if __name__ == '__main__':
-
     cookie,host = lehenegoEskaera()
-    bigarrenEskaera(cookie,host)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print("Mesedez sartu ezazu zure erabiltzailea eta pasahitza","123333","12121212")
+    bigarrenEskaera(cookie,host,"121212","1212121")
+
+
+    # print("Mesedez sartu ezazu zure erabiltzailea eta pasahitza",sys.argv[0],sys.argv[1])
+    # bigarrenEskaera(cookie,host,sys.argv[0],sys.argv[1])
