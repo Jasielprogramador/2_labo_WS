@@ -80,6 +80,7 @@ def bigarrenEskaera(cookie,host,erabiltzailea,pasahitza):
 
     print("#######################################################")
 
+    #Aqui hay que pasarle el id de web sistemak pero nose como se hace eso
     return cookieIzenburua,cookieKodea,42336
 
 
