@@ -106,12 +106,30 @@ def hirugarrenEskaera(cookieIzenburua,cookieKodea,id):
 
     print("#######################################################")
 
+
+def laugarrenEskaera(cookieIzenburua,cookieKodea):
+    metodo = 'GET'
+    uria = "https://egela.ehu.eus/"
+    goiburuak = {'Host': host, cookieIzenburua: cookieKodea}
+    edukia = ''
+    erantzuna = requests.request(metodo, uria, headers=goiburuak, data=edukia, allow_redirects=False)
+
+    print("metodoa: " + metodo)
+    print("uria: " + uria)
+    print("edukia: " + edukia)
+
+    codigo = erantzuna.status_code
+    descripcion = erantzuna.reason
+    print(str(codigo) + " " + descripcion)
+
+
 if __name__ == '__main__':
     cookie,host = lehenegoEskaera()
 
     print("Mesedez sartu ezazu zure erabiltzailea eta pasahitza","911806","Ani0045")
     cookieIzenburua,cookieKodea,id = bigarrenEskaera(cookie,host,"911806","Ani0045")
     hirugarrenEskaera(cookieIzenburua,cookieKodea,id)
+    laugarrenEskaera(cookieIzenburua,cookieKodea)
 
 
     # print("Mesedez sartu ezazu zure erabiltzailea eta pasahitza",sys.argv[0],sys.argv[1])
