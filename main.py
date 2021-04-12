@@ -36,7 +36,6 @@ def irakasgaiko_pdf(uria):
     div_list = soup.find_all('div', {'class': 'activityinstance'})
     for elem in div_list:
         if "pdf" in str(elem.find('img')['src']):
-            izena = elem.find("span", {"class": "instancename"}).text
             uria = elem.find('a').get('href')
             erantzuna = requests.request(metodoa, uria, headers=goiburuak, allow_redirects=False)
             pdf_joan(erantzuna.content)
@@ -73,6 +72,7 @@ def sartuEgelan(erabiltzailea,pasahitza):
         uria = erantzuna.headers['Location']
     if 'Set-Cookie' in erantzuna.headers:
         cookie = erantzuna.headers['Set-Cookie'].split(",")[0]
+
     codigo = erantzuna.status_code
     descripcion = erantzuna.reason
     print(str(codigo) + " " + descripcion)
